@@ -1,0 +1,23 @@
+name: Trigger Jenkins Job from GitHub
+
+on:
+  push:
+    branches:
+      - main  # Replace with your target branch
+
+jobs:
+  trigger-jenkins:
+    runs-on: self-hosted
+
+    steps:
+      - name: Trigger Jenkins via REST API
+        run: |
+          curl -X POST "$JENKINS_URL/job/$JENKINS_JOB_NAME/build?token=$JENKINS_TRIGGER_TOKEN" \
+            --user "$JENKINS_USER:$JENKINS_API_TOKEN"
+        env:
+          JENKINS_URL: 'http://51.20.77.215:8080'
+          JENKINS_USER: 'preetam-jain'
+          JENKINS_API_TOKEN: '113d69a7e95a1f606972b10e56ce8b34ef'
+          JENKINS_JOB_NAME: 'fullstack_deploy'
+          JENKINS_TRIGGER_TOKEN: 'trigger-from-github'
+
